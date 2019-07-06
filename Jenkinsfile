@@ -15,6 +15,16 @@ pipeline {
               }
          }
      }
+   {
+         stage ('Test the code'){
+        
+            steps {
+                withMaven(maven : 'LocalMaven') {
+                    sh 'mvn clean test'
+                 }
+              }
+         }
+     }
 }
 
                     
