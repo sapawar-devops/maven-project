@@ -7,7 +7,7 @@ pipeline {
           }
           }
          stage ('Compile Stage'){
-             agent {label 'maven'} 
+             agent {label 'mymaven'} 
             steps {
                 withMaven(maven : 'LocalMaven') {
                     sh 'mvn install'
