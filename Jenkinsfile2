@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    stages {
+        stage('clone the code from git repo'){
+            steps {
+          git 'https://github.com/sapawar-devops/maven-project'
+          }
+          }
+         stage ('Compile Stage'){
+             agent {label 'mymaven'} 
+            steps {
+                withMaven(maven : 'LocalMaven') {
+                    sh 'mvn compile'
+                    sh 'mvn test'
+                    sh 'mvn install'
+                 }
+              }
+         }
+         stage ('Package creation'){
+        
+            steps {
+                withMaven(maven : 'LocalMaven') {
+                    sh 'mvn install'
+                 }
+              }
+         }
+        stage ('Deploy on TOMCAT Server'){
+        
+        steps {
+            
+            sshagent (credentials: ['f31b12c8-132c-4db9-bb20-a3fb406c19e1']) {
+            sh 'scp -o StrictHostKeyChecking=no */target/*.war ec2-user@13.232.3.253:/usr/share/tomcat/webapps'
+         }
+      }
+        }
+        }
+}
