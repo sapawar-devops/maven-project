@@ -45,22 +45,18 @@ pipeline {
               }
          }
       }
-    node {
-      sshagent (credentials: ['f31b12c8-132c-4db9-bb20-a3fb406c19e1']) {
-      sh 'scp -o StrictHostKeyChecking=no -l ec2-user@13.232.3.253:/usr/share/tomcat/webapps uname -a'
+    {
+        stage ('Deploy on TOMCAT Server'){
+        
+        steps {
+            
+            sshagent (credentials: ['f31b12c8-132c-4db9-bb20-a3fb406c19e1']) {
+            sh 'scp -o StrictHostKeyChecking=no -l *.war ec2-user@13.232.3.253:/usr/share/tomcat/webapps -a'
          }
       }
-       {
-         stage ('Deploy on TOMCAT Server'){
-        
-            steps {
-                withMaven(maven : 'LocalMaven') {
-                    sh 'mvn deploy'
-                 }
-              }
-         }
-      }   
-}
+        }
+    }
+ }
 
                     
                     
