@@ -2,8 +2,11 @@ pipeline {
     agent any
     stages {
         stage('clone the code from git repo'){
+            steps {
           git 'https://github.com/sapawar-devops/maven-project'
           }
+          }
+          
          stage ('Package creation'){
         
             steps {
