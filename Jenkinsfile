@@ -34,6 +34,16 @@ pipeline {
                  }
               }
          }
+      }
+    {
+         stage ('Install the packagevbinary'){
+        
+            steps {
+                withMaven(maven : 'LocalMaven') {
+                    sh 'mvn clean install'
+                 }
+              }
+         }
       }    
 }
 
