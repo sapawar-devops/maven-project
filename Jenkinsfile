@@ -25,6 +25,16 @@ pipeline {
               }
          }
      }
+      {
+         stage ('Package the binary'){
+        
+            steps {
+                withMaven(maven : 'LocalMaven') {
+                    sh 'mvn clean package'
+                 }
+              }
+         }
+      }    
 }
 
                     
