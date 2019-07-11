@@ -2,8 +2,10 @@ pipeline {
     agent any
     stages {
         stage('clone the code from git repo'){
-          git 'https://github.com/sapawar-devops/maven-project'
+            steps {
+            git 'https://github.com/sapawar-devops/maven-project'
           } 
+        }   
          stage ('Install the packagevbinary'){
         
             steps {
