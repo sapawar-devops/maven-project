@@ -3,9 +3,7 @@ pipeline {
     stages {
         stage('clone the code from git repo'){
           git 'https://github.com/sapawar-devops/maven-project'
-          }
-    }  
-    {
+          } 
          stage ('Install the packagevbinary'){
         
             steps {
@@ -14,8 +12,6 @@ pipeline {
                  }
               }
          }
-      }
-    {
         stage ('Deploy on TOMCAT Server'){
         
         steps {
