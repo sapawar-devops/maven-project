@@ -12,7 +12,7 @@ node{
 	}
 	
 	stage ('Push Docker image to DockerHub') {
-	  withCredentials([string(credentialsId: 'dockerHubAccount', variable: 'dockerhubaccount')]) {
+	  withCredentials([string(credentialsId: 'dockerhubaccount', variable: 'dockerhubaccount')]) {
 	     sh "docker login -u sapawardevops -p ${dockerhubaccount}"
 	     }
 	   sh 'docker push sapawardevops/sapawar-app:1.0.0'
