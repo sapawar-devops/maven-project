@@ -22,7 +22,7 @@ node{
        stage('Remove Old Containers'){
            sshagent(['deploy-to-dev-docker']) {
              try{
-               def sshCmd = 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.46.1'
+               def sshCmd = 'ssh -o StrictHostKeyChecking=no ec2-user@13.233.27.188'
                def dockerRM = 'docker rm -f my-tomcat-app'
                  sh "${sshCmd} ${dockerRM}"
                  }catch(error){
