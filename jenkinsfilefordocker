@@ -1,6 +1,44 @@
-node{ 
+node{
     stage ('scm checkout') {
-    	git ''https://github.com/sapawar-devops/maven-project.git'
-		} 
+	git ('https://github.com/sapawar-devops/maven-project.git')
 	}
+	
+	stage ('package stage') {
+       sh label: '', script: 'mvn clean package '
+        }
+	stage ('docker image build') {
+	   sh 'docker build -t sapawardevops/sapawar-app:1.0.0 .'
+	
+	}
+	
+	stage ('Push Docker image to DockerHub') {
+	  withCredentials([string(credentialsId: 'dockerhubaccount', variable: 'dockerhubaccount')]) {
+	     sh "docker login -u sapawardevops -p ${dockerhubaccount}"
+	     }
+	   sh 'docker push sapawardevops/sapawar-app:1.0.0'
+	
+        }
+	
+       stage('Remove Old Containers'){
+           sshagent(['deploy-to-dev-docker']) {
+             try{
+               def sshCmd = 'ssh -o StrictHostKeyChecking=no ec2-user@172.31.46.1'
+               def dockerRM = 'docker rm -f my-tomcat-app'
+                 sh "${sshCmd} ${dockerRM}"
+                 }catch(error){
+
+      }
+    }
+  }
+	
+	
+	
+
+       stage ('Deploy to Dev') {
+	   def dockerRun = 'docker run -d -p 9000:8080 --name my-tomcat-app sapawardevops/sapawar-app:1.0.0'
+	   sshagent(['deploy-to-dev-docker']) {
+             sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.46.1 ${dockerRun}"
+   }
+  }	
+}
 
