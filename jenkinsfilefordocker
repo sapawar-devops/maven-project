@@ -1,2 +1,6 @@
-git 'https://github.com/sapawar-devops/maven-project.git'
+node{ 
+    stage ('scm checkout') {
+    	git ''https://github.com/sapawar-devops/maven-project.git'
+		} 
+	}
 
