@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+        stage('clone the code from git repo'){
+            steps {
+            git 'https://github.com/sapawar-devops/maven-project'
+          } 
+        }   
+         stage ('Install the packagevbinary'){
+        
+            steps {
+                withMaven(maven : 'LocalMaven') {
+                    sh 'mvn clean package'
+                 }
+              }
+         }
+    }
+ }
